@@ -16,9 +16,60 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <X11/Xlib.h>
+#include <X11/extensions/xf86vmode.h>
+
+static void usage(void);
 
 int
-main(void)
+main(int argc, char **argv)
 {
-	printf("hello Xorg\n");
+	const char *display_name = NULL;
+	Display *dpy;
+	XF86VidModeGamma gamma = { 0 };
+	int screen = -1;
+	int opt;
+
+	while ((opt = getopt(argc, argv, "d:s:")) != -1) {
+		switch (opt) {
+		case 'd':
+			display_name = optarg;
+			break;
+		case 's':
+			screen = (int)strtol(optarg, NULL, 10);
+			break;
+		}
+	}
+
+	argc -= optind;
+	argv += optind;
+
+	if (argc > 2) {
+		usage();
+		return 1;
+	}
+
+	dpy = XOpenDisplay(display_name);
+	if (!dpy) {
+		fprintf(stderr, "cannot open display '%s'\n", display_name);
+		return 1;
+	}
+
+	if (screen < 0) {
+		screen = XDefaultScreen(dpy);
+	}
+
+	XF86VidModeGetGamma(dpy, screen, &gamma);
+	printf("%.3f\n", gamma.blue);
+
+	XCloseDisplay(dpy);
+}
+
+static void
+usage(void)
+{
+	fprintf(stderr,
+"usage: bgam-xlib [-d display] [-s screen_number]\n");
 }

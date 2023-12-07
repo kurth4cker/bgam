@@ -1,5 +1,7 @@
 CC = cc
 
+LDFLAGS = -lX11 -lXxf86vm
+
 BIN = bgam-xlib
 OBJ = main.o
 
