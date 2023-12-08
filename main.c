@@ -29,6 +29,7 @@ main(int argc, char **argv)
 	const char *display_name = NULL;
 	Display *dpy;
 	XF86VidModeGamma gamma = { 0 };
+	float blue_gamma = -1;
 	int screen = -1;
 	int opt;
 
@@ -50,6 +51,15 @@ main(int argc, char **argv)
 		usage();
 		return 1;
 	}
+	if (argc == 1) {
+		blue_gamma = strtof(argv[0], NULL);
+		if (blue_gamma <= 0.1 || blue_gamma > 10.0) {
+			fprintf(stderr,
+				"gamma value must between 0.1 and 10.0\n");
+			usage();
+			return 1;
+		}
+	}
 
 	dpy = XOpenDisplay(display_name);
 	if (!dpy) {
@@ -62,7 +72,14 @@ main(int argc, char **argv)
 	}
 
 	XF86VidModeGetGamma(dpy, screen, &gamma);
-	printf("%.3f\n", gamma.blue);
+
+	if (blue_gamma < 0) {
+		printf("%.3f\n", gamma.blue);
+	}
+	else {
+		gamma.blue = blue_gamma;
+		XF86VidModeSetGamma(dpy, screen, &gamma);
+	}
 
 	XCloseDisplay(dpy);
 }
@@ -71,5 +88,5 @@ static void
 usage(void)
 {
 	fprintf(stderr,
-"usage: bgam-xlib [-d display] [-s screen_number]\n");
+"usage: bgam-xlib [-d display] [-s screen_number] [blue_gamma]\n");
 }
