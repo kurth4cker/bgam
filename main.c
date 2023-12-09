@@ -21,6 +21,8 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 
+#include "gamma.h"
+
 static void usage(void);
 
 int
@@ -28,7 +30,6 @@ main(int argc, char **argv)
 {
 	const char *display_name = NULL;
 	Display *dpy;
-	XF86VidModeGamma gamma = { 0 };
 	float blue_gamma = -1;
 	int screen = -1;
 	int opt;
@@ -71,14 +72,11 @@ main(int argc, char **argv)
 		screen = XDefaultScreen(dpy);
 	}
 
-	XF86VidModeGetGamma(dpy, screen, &gamma);
-
 	if (blue_gamma < 0) {
-		printf("%.3f\n", gamma.blue);
+		printf("%.3f\n", get_blue_gamma(dpy, screen));
 	}
 	else {
-		gamma.blue = blue_gamma;
-		XF86VidModeSetGamma(dpy, screen, &gamma);
+		set_blue_gamma(dpy, screen, blue_gamma);
 	}
 
 	XCloseDisplay(dpy);
