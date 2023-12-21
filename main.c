@@ -23,7 +23,12 @@
 
 #include "gamma.h"
 
-static void usage(void);
+static void
+usage(void)
+{
+	fprintf(stderr,
+"usage: bgam-xlib [-d display] [-s screen_number] [blue_gamma]\n");
+}
 
 int
 main(int argc, char **argv)
@@ -80,11 +85,4 @@ main(int argc, char **argv)
 	}
 
 	XCloseDisplay(dpy);
-}
-
-static void
-usage(void)
-{
-	fprintf(stderr,
-"usage: bgam-xlib [-d display] [-s screen_number] [blue_gamma]\n");
 }
