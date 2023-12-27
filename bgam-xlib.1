@@ -1,11 +1,34 @@
-.Dd
+.Dd December 27, 2023
 .Dt BGAM-XLIB 1
 .Os
 .
 .Sh NAME
+.Nm bgam-xlib
+.Nd set or get blue gamma for X11
 .
 .Sh SYNOPSIS
+.Nm bgam-xlib
+.Op blue_gamma
 .
 .Sh DESCRIPTION
+.Pp
+The
+.Nm
+is for set or get blue gamma from X11 server.
+Uses XF86 Video Mode Extension for gamma handling.
+.Pp
+If you specify
+.Ar blue_gamma ,
+it tries to set blue gamma to specified value.
+Otherwise, it just prints current value.
+.
+.Sh SEE ALSO
+.Xr bxgamma 1 ,
+.Xr xgamma 1 ,
+.Xr xrandr 1 ,
+.Pp
+.Xr XF86VidModeGetGamma 3 ,
+.Xr XF86VidModeSetGamma 3
 .
 .Sh AUTHOR
+.An Kurth4cker Aq Mt kurth4cker@gmail.com
