@@ -1,5 +1,6 @@
 PACKAGE = bgam-xlib
-VERSION = 0.0.0-git
+VERSION = 0.0.0_git
+DISTNAME = $(PACKAGE)-$(VERSION)
 
 PREFIX = /usr/local
 MANPREFIX = $(PREFIX)/share/man
@@ -23,13 +24,13 @@ $(BIN): $(OBJ)
 	$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
-	rm -f $(BIN) *.o
+	rm -f $(BIN) *.o $(DISTNAME).tar.gz
 
 dist:
-	mkdir $(PACKAGE)-$(VERSION)
-	cp -f $(DISTFILES) $(PACKAGE)-$(VERSION)
-	tar -cf $(PACKAGE)-$(VERSION).tar $(PACKAGE)-$(VERSION)
-	rm -rf $(PACKAGE)-$(VERSION)
+	mkdir $(DISTNAME)
+	cp -f $(DISTFILES) $(DISTNAME)
+	tar -c $(DISTNAME) | gzip -c > $(DISTNAME).tar.gz
+	rm -rf $(DISTNAME)
 
 install: $(BIN) $(MAN1)
 	mkdir -p $(DESTDIR)$(BINDIR) $(DESTDIR)$(MANPREFIX)/man1
