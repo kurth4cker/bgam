@@ -12,7 +12,7 @@ LDFLAGS = -lX11 -lXxf86vm
 
 BIN = $(PACKAGE)
 MAN1 = $(BIN).1
-OBJ = main.o get_blue_gamma.o set_blue_gamma.o
+OBJ = main.o gamma.o
 
 SRC = $(OBJ:.o=.c)
 INC = gamma.h

@@ -12,3 +12,13 @@ get_blue_gamma(Display *dpy, int screen)
 
 	return gamma.blue;
 }
+
+void
+set_blue_gamma(Display *dpy, int screen, float blue_gamma)
+{
+	XF86VidModeGamma gamma = { 0 };
+
+	XF86VidModeGetGamma(dpy, screen, &gamma);
+	gamma.blue = blue_gamma;
+	XF86VidModeSetGamma(dpy, screen, &gamma);
+}
