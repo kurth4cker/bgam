@@ -1,5 +1,5 @@
 PACKAGE = bgam-xlib
-VERSION = 0.0.0_git
+VERSION = 0.0.0dev
 DISTNAME = $(PACKAGE)-$(VERSION)
 
 PREFIX = /usr/local
@@ -33,7 +33,8 @@ dist:
 	rm -rf $(DISTNAME)
 
 install: $(BIN) $(MAN1)
-	mkdir -p $(DESTDIR)$(BINDIR) $(DESTDIR)$(MANPREFIX)/man1
+	mkdir -p $(DESTDIR)$(BINDIR)
+	mkdir -p $(DESTDIR)$(MANPREFIX)/man1
 	cp -f $(BIN) $(DESTDIR)$(BINDIR)
 	cp -f $(MAN1) $(DESTDIR)$(MANPREFIX)/man1
 
