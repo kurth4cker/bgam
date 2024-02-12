@@ -1,5 +1,4 @@
-/* bgam-xlib -- get and set blue gamma for X11
- * Copyright 2023 Kurth4cker
+/* Copyright 2023,2024 kurth4cker
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +20,7 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 
+#include "die.h"
 #include "gamma.h"
 #include "help.h"
 
@@ -33,7 +33,7 @@ main(int argc, char **argv)
 	int screen = -1;
 	int opt;
 
-	while ((opt = getopt(argc, argv, "d:s:v")) != -1) {
+	while ((opt = getopt(argc, argv, "hvd:s:")) != -1) {
 		switch (opt) {
 		case 'd':
 			display_name = optarg;
@@ -43,6 +43,11 @@ main(int argc, char **argv)
 			break;
 		case 'v':
 			version();
+			/* FALLTHROUGH */
+		case 'h':
+			usage();
+			return 1;
+			/* FALLTHROUGH */
 		}
 	}
 
@@ -56,19 +61,13 @@ main(int argc, char **argv)
 
 	if (argc == 1) {
 		blue_gamma = strtof(argv[0], NULL);
-		if (blue_gamma <= 0.1 || blue_gamma > 10.0) {
-			usage();
-			fprintf(stderr,
-				"gamma value must between 0.1 and 10.0\n");
-			return 1;
-		}
+		if (blue_gamma <= 0.1 || blue_gamma > 10.0)
+			die("gamma value must between 0.1 and 10.0");
 	}
 
 	dpy = XOpenDisplay(display_name);
-	if (!dpy) {
-		fprintf(stderr, "cannot open display '%s'\n", display_name);
-		return 1;
-	}
+	if (!dpy)
+		die("cannot open display '%s'", display_name);
 
 	if (screen < 0)
 		screen = XDefaultScreen(dpy);
