@@ -70,16 +70,13 @@ main(int argc, char **argv)
 		return 1;
 	}
 
-	if (screen < 0) {
+	if (screen < 0)
 		screen = XDefaultScreen(dpy);
-	}
 
-	if (blue_gamma < 0) {
+	if (blue_gamma < 0)
 		printf("%.3f\n", get_blue_gamma(dpy, screen));
-	}
-	else {
+	else
 		set_blue_gamma(dpy, screen, blue_gamma);
-	}
 
 	XCloseDisplay(dpy);
 }
