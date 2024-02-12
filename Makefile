@@ -12,14 +12,18 @@ LDFLAGS = -lX11 -lXxf86vm
 
 BIN = $(PACKAGE)
 MAN1 = $(BIN).1
-OBJ = main.o gamma.o
+OBJ = gamma.o help.o main.o
 
 SRC = $(OBJ:.o=.c)
-INC = gamma.h
+INC = gamma.h help.h
 DISTFILES = COPYING README.md Makefile $(SRC) $(INC) $(MAN1)
 
 all: $(BIN)
-$(OBJ): gamma.h
+
+main.o: gamma.h help.h
+gamma.o: gamma.h
+help.o: help.h
+
 $(BIN): $(OBJ)
 	$(CC) -o $@ $(OBJ) $(LDFLAGS)
 

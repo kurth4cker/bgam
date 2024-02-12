@@ -22,13 +22,7 @@
 #include <X11/extensions/xf86vmode.h>
 
 #include "gamma.h"
-
-static void
-usage(void)
-{
-	fprintf(stderr,
-"usage: bgam-xlib [-d display] [-s screen_number] [blue_gamma]\n");
-}
+#include "help.h"
 
 int
 main(int argc, char **argv)
@@ -39,7 +33,7 @@ main(int argc, char **argv)
 	int screen = -1;
 	int opt;
 
-	while ((opt = getopt(argc, argv, "d:s:")) != -1) {
+	while ((opt = getopt(argc, argv, "d:s:v")) != -1) {
 		switch (opt) {
 		case 'd':
 			display_name = optarg;
@@ -47,6 +41,8 @@ main(int argc, char **argv)
 		case 's':
 			screen = (int)strtol(optarg, NULL, 10);
 			break;
+		case 'v':
+			version();
 		}
 	}
 
@@ -57,12 +53,13 @@ main(int argc, char **argv)
 		usage();
 		return 1;
 	}
+
 	if (argc == 1) {
 		blue_gamma = strtof(argv[0], NULL);
 		if (blue_gamma <= 0.1 || blue_gamma > 10.0) {
+			usage();
 			fprintf(stderr,
 				"gamma value must between 0.1 and 10.0\n");
-			usage();
 			return 1;
 		}
 	}
