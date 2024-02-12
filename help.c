@@ -4,10 +4,12 @@
 #include "help.h"
 
 void
-usage(void)
+usage(int code)
 {
 	fprintf(stderr, "usage: bgam-xlib [-d display] "
 			"[-s screen_number] [blue_gamma]\n");
+
+	exit(code);
 }
 
 void

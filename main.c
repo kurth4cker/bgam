@@ -45,8 +45,7 @@ main(int argc, char **argv)
 			version();
 			/* FALLTHROUGH */
 		case 'h':
-			usage();
-			return 1;
+			usage(EXIT_SUCCESS);
 			/* FALLTHROUGH */
 		}
 	}
@@ -54,10 +53,8 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (argc > 2) {
-		usage();
-		return 1;
-	}
+	if (argc > 2)
+		usage(EXIT_FAILURE);
 
 	if (argc == 1) {
 		blue_gamma = strtof(argv[0], NULL);
