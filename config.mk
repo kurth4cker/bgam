@@ -8,4 +8,4 @@ PREFIX = /usr/local
 BINDIR = $(PREFIX)/bin
 MANDIR = $(PREFIX)/share/man
 
-VERSION = 0.0dev
+VERSION = $$(./scripts/version)

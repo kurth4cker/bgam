@@ -2,7 +2,7 @@
 include config.mk
 
 BGAM_CFLAGS = \
-	-DVERSION='"$(VERSION)"' \
+	-DVERSION='"'"$(VERSION)"'"' \
 	$(CFLAGS)
 BGAM_LDFLAGS = $(LDFLAGS) $(LIBS)
 
