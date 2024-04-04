@@ -1,6 +1,4 @@
-PACKAGE = bgam-xlib
 VERSION = 0.0.0dev
-DISTNAME = $(PACKAGE)-$(VERSION)
 
 PREFIX = /usr/local
 MANPREFIX = $(PREFIX)/share/man
@@ -10,32 +8,24 @@ CC = cc
 
 LDFLAGS = -lX11 -lXxf86vm
 
-BIN = $(PACKAGE)
+BIN = bgam
 MAN1 = $(BIN).1
 OBJ = die.o gamma.o help.o main.o
 
-SRC = $(OBJ:.o=.c)
-INC = die.h gamma.h help.h
-DISTFILES = COPYING README.md Makefile $(SRC) $(INC) $(MAN1)
+HEADERS = die.h gamma.h help.h
 
 all: $(BIN)
 
 die.o: die.h
 gamma.o: gamma.h
 help.o: help.h
-main.o: $(INC)
+main.o: $(HEADERS)
 
 $(BIN): $(OBJ)
 	$(CC) -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
-	rm -f $(BIN) *.o $(DISTNAME).tar.gz
-
-dist:
-	mkdir $(DISTNAME)
-	cp -f $(DISTFILES) $(DISTNAME)
-	tar -c $(DISTNAME) | gzip -c > $(DISTNAME).tar.gz
-	rm -rf $(DISTNAME)
+	rm -f $(BIN) *.o
 
 install: $(BIN) $(MAN1)
 	mkdir -p $(DESTDIR)$(BINDIR)
