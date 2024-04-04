@@ -1,12 +1,10 @@
-VERSION = 0.0.0dev
+.POSIX:
+include config.mk
 
-PREFIX = /usr/local
-MANPREFIX = $(PREFIX)/share/man
-BINDIR = $(PREFIX)/bin
-
-CC = cc
-
-LDFLAGS = -lX11 -lXxf86vm
+BGAM_CFLAGS = \
+	-DVERSION='"$(VERSION)"' \
+	$(CFLAGS)
+BGAM_LDFLAGS = $(LDFLAGS) $(LIBS)
 
 BIN = bgam
 MAN1 = $(BIN).1
@@ -22,7 +20,7 @@ help.o: help.h
 main.o: $(HEADERS)
 
 $(BIN): $(OBJ)
-	$(CC) -o $@ $(OBJ) $(LDFLAGS)
+	$(CC) -o $@ $(OBJ) $(BGAM_LDFLAGS)
 
 clean:
 	rm -f $(BIN) *.o
@@ -39,4 +37,4 @@ uninstall:
 
 .SUFFIXES: .c .o
 .c.o:
-	$(CC) -DVERSION=\"$(VERSION)\" $(CFLAGS) -c $<
+	$(CC) $(BGAM_CFLAGS) -c $<

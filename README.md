@@ -25,7 +25,7 @@ For customizing build, you can setup some standard variables.
 	# or $HOME/.local
 	make install PREFIX=$HOME/.local
 
-See Makefile for all variables
+See config.mk for all variables
 
 ## Usage
 See bgam(1) manpage.
