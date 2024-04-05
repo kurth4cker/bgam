@@ -20,7 +20,6 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 
-#include "die.h"
 #include "gamma.h"
 #include "help.h"
 
@@ -58,13 +57,18 @@ main(int argc, char **argv)
 
 	if (argc == 1) {
 		blue_gamma = strtof(argv[0], NULL);
-		if (blue_gamma <= 0.1 || blue_gamma > 10.0)
-			die("gamma value must between 0.1 and 10.0");
+		if (blue_gamma <= 0.1 || blue_gamma > 10.0) {
+			fprintf(stderr,
+				"gamma value must between 0.1 and 10.0");
+			return 1;
+		}
 	}
 
 	dpy = XOpenDisplay(display_name);
-	if (!dpy)
-		die("cannot open display '%s'", display_name);
+	if (!dpy) {
+		fprintf(stderr, "cannot open display '%s'", display_name);
+		return 1;
+	}
 
 	if (screen < 0)
 		screen = XDefaultScreen(dpy);

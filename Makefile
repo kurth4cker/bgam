@@ -8,13 +8,17 @@ BGAM_LDFLAGS = $(LDFLAGS) $(LIBS)
 
 BIN = bgam
 MAN1 = $(BIN).1
-OBJ = die.o gamma.o help.o main.o
+OBJ = \
+	gamma.o \
+	help.o \
+	main.o
 
-HEADERS = die.h gamma.h help.h
+HEADERS = \
+	gamma.h \
+	help.h
 
 all: $(BIN)
 
-die.o: die.h
 gamma.o: gamma.h
 help.o: help.h
 main.o: $(HEADERS)
